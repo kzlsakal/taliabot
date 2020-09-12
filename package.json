@@ -1,0 +1,19 @@
+{
+  "name": "taliabot",
+  "version": "0.0.1",
+  "description": "A friendly robot that learns and recommends activities based on your mood",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kzlsakal/taliabot.git"
+  },
+  "author": "Doruk Gurleyen <dorukgurleyen@gmail.com> (https://dorukgurleyen.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kzlsakal/taliabot/issues"
+  },
+  "homepage": "https://github.com/kzlsakal/taliabot#readme"
+}

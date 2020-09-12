@@ -1,0 +1,10 @@
+# Coverage and logs
+coverage
+*.log
+
+# Environment Variables
+.env
+.env.swp
+
+# Node
+node_modules
