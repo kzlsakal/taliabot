@@ -7,8 +7,8 @@ export const getUserActions = (user, mood, limit = 30) => {
   limit = neo4jInt(limit);
   return session
     .run(
-      'MATCH (u:User {name: $user})-[:PREFER]->(a:Action)'
-      + '<-[:DO]-(m:Mood {mood: $mood}) RETURN a LIMIT $limit',
+      'MATCH (u:User {name: $user})-[:PREFER]->(a:Action)<-[:DO]-'
+      + '(m:Mood {mood: $mood}) WHERE (u)-[:FEEL]->(m) RETURN a LIMIT $limit',
       { user, mood, limit }
     )
     .then(result => {
@@ -20,14 +20,16 @@ export const getUserActions = (user, mood, limit = 30) => {
     });
 };
 
-export const getPublicActions = (mood, limit = 30) => {
+export const getPublicActions = (user, mood, limit = 30) => {
   const session = driver.session();
+  user = user.toLowerCase();
   mood = mood.toLowerCase();
   limit = neo4jInt(limit);
   return session
     .run(
-      'MATCH (m:Mood {mood: $mood})-[:DO]->(a:Action) return a LIMIT $limit',
-      { mood, limit }
+      'MATCH (m:Mood {mood: $mood})-[:DO]->(a:Action), (u:User {name: $user}) '
+      + 'WHERE NOT (u)-[:DISLIKE]->(a) RETURN a LIMIT $limit',
+      { user, mood, limit }
     )
     .then(result => {
       session.close();
@@ -37,5 +39,3 @@ export const getPublicActions = (mood, limit = 30) => {
       throw error;
     });
 };
-
-// getUserActions('kizilsakal3', 'trapped').then(res => console.log(res));

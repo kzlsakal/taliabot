@@ -16,5 +16,3 @@ export const getUser = (name) => {
       throw error;
     })
 }
-
-// getUser('kizilsakal1').then(res => console.log(res));

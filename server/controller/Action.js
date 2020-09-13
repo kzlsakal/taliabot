@@ -12,8 +12,28 @@ export const setAction = (user, action, mood) => {
       + 'MERGE (a:Action {action: $action}) '
       + 'MERGE (m)-[d:DO]->(a) '
       + 'MERGE (u)-[f:FEEL]->(m) '
-      + 'MERGE (u)-[p:PREFER]->(a) RETURN u, m, a',
+      + 'MERGE (u)-[p:PREFER]->(a) RETURN a',
       { user, action, mood }
+    )
+    .then(result => {
+      session.close();
+      return extract(result);
+    })
+    .catch(error => {
+      throw error;
+    });
+};
+
+export const dislikeAction = (user, action) => {
+  const session = driver.session();
+  user = user.toLowerCase();
+  action = action.toLowerCase();
+  return session
+    .run(
+      'MERGE (u:User {name: $user}) '
+      + 'MERGE (a:Action {action: $action}) '
+      + 'MERGE (u)-[p:DISLIKE]->(a) RETURN a',
+      { user, action }
     )
     .then(result => {
       session.close();

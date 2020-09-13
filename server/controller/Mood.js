@@ -7,7 +7,7 @@ export const setMood = (user, mood) => {
   return session
     .run(
       'MERGE (u:User {name: $user}) MERGE (m:Mood {mood: $mood}) '
-      + 'MERGE (u)-[f:FEEL]->(m) RETURN u, m',
+      + 'MERGE (u)-[f:FEEL]->(m) RETURN m',
       { user, mood }
     )
     .then(result => {
