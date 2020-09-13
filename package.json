@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/kzlsakal/taliabot#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "neo4j-driver": "^4.1.2",
     "react": "^16.13.1"
   }
 }
