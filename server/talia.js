@@ -70,7 +70,7 @@ talia.post('/actions', (req, res) => {
 /**
  * Dislike an action for the user
  */
-talia.put('/actions', (req, res) => {
+talia.put('/actions/dislike', (req, res) => {
   const { user, action } = req.body;
   if (user === undefined || !action) {
     res.header(400).end('Invalid request.');

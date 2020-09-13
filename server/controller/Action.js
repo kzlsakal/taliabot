@@ -10,6 +10,7 @@ export const setAction = (user, action, mood) => {
       'MERGE (u:User {name: $user}) '
       + 'MERGE (m:Mood {mood: $mood}) '
       + 'MERGE (a:Action {action: $action}) '
+      + 'ON CREATE SET a.author = $user '
       + 'MERGE (m)-[d:DO]->(a) '
       + 'MERGE (u)-[f:FEEL]->(m) '
       + 'MERGE (u)-[p:PREFER]->(a) RETURN a',
