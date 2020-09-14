@@ -25,7 +25,8 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "neo4j-driver": "^4.1.2",
-    "react": "^16.13.1"
+    "react": "^16.13.1",
+    "styled-components": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
