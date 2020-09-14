@@ -1,14 +1,12 @@
 import express from 'express';
+import path from 'path';
 import model from './model/index.js';
 import controller from './controller/index.js';
 export const talia = express();
 export const port = process.env.PORT || 24528;
 
 talia.use(express.json());
-
-talia.get('/', (req, res) => {
-  res.end('greetings from talia');
-});
+talia.use(express.static(path.resolve('public')));
 
 /**
  * Get user's moods

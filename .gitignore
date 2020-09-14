@@ -8,3 +8,6 @@ coverage
 
 # Node
 node_modules
+
+# Bundled JS file
+public/talia.bundle.js
