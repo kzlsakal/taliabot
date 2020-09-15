@@ -8,7 +8,8 @@ export const getUserActions = (user, mood, limit = 30) => {
   return session
     .run(
       'MATCH (u:User {name: $user})-[:PREFER]->(a:Action)<-[:DO]-'
-      + '(m:Mood {mood: $mood}) WHERE (u)-[:FEEL]->(m) RETURN a LIMIT $limit',
+      + '(m:Mood {mood: $mood}) WHERE (u)-[:FEEL]->(m) '
+      + 'AND NOT (u)-[:DISLIKE]->(a) RETURN a LIMIT $limit',
       { user, mood, limit }
     )
     .then(result => {
