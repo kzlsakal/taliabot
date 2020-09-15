@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { createGlobalStyle, keyframes } from 'styled-components';
+import Line from './Line.jsx'
 import helpers from '../helpers/index.jsx';
 
 const Styled = {
@@ -30,10 +31,6 @@ const Styled = {
       height: 100%;
       width: 100%;
     }
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
-    }
   `,
   Console: styled.section`
     border: 0.1rem solid rgb(190, 195, 205);
@@ -48,28 +45,18 @@ const Styled = {
     &::-webkit-scrollbar {
       display: none;
     }
+    & p {
+      margin: 0;
+    }
     & .taliabot {
       color: rgb(140, 235, 250);
     }
-    & .taliabot-response:nth-child(n + 2) {
+    & .taliabot-response {
       color: rgb(255, 180, 110);
-      overflow: hidden;
-      white-space: nowrap;
-      animation: typing 3.5s steps(40, end);
-    }
-    @media only screen and (max-width: 700px) {
-      & .taliabot-response:nth-child(n + 2) {
-        overflow: visible;
-        white-space: inherit;
-        animation: none;
-      }
     }
     & .user-command::before {
       content: "> ";
     }
-  `,
-  Line: styled.p`
-    margin: 0;
   `,
   Command: styled.input`
     border: 0;
@@ -164,7 +151,6 @@ const Talia = () => {
       return;
     }
     helpers.disableInput();
-    type(terminal.concat([['... just a sec', 'taliabot-response']]));
     helpers.enter(guest.user, pin)
       .then(res => {
         setStage('feeling');
@@ -480,7 +466,7 @@ const Talia = () => {
     event.preventDefault();
     const userInput = event.target.children[0];
     if (userInput.value !== '') {
-      respond[stage](userInput.value);
+      respond[stage](userInput.value.toLowerCase());
       userInput.value = '';
     }
   };
@@ -492,9 +478,7 @@ const Talia = () => {
     <Styled.Console id="console" onClick={helpers.focus}>
       <Styled.Global />
         {terminal.map((line, idx) => (
-          <Styled.Line key={'l' + idx} className={line[1]}>
-            {line[0]}
-          </Styled.Line>
+          <Line key={'l' + idx} line={line} idx={'l' + idx} />
         ))}
         <form onSubmit={typeConsole} spellCheck="false" autoComplete="off">
             > <Styled.Command id="command" autoFocus maxLength="50" />
