@@ -14,7 +14,7 @@ talia.use(express.static(path.resolve('public')));
 talia.get('/moods/:user', (req, res) => {
   model.getUserMoods(req.params.user)
     .then(result => res.json(result).end())
-    .catch(error => res.header(500).end('Something went wrong.'));
+    .catch(error => res.status(500).end('Something went wrong.'));
 });
 
 /**
@@ -24,7 +24,7 @@ talia.get('/actions/:mood/:user', (req, res) => {
   const { user, mood } = req.params;
   model.getUserActions(user, mood)
     .then(result => res.json(result).end())
-    .catch(error => res.header(500).end('Something went wrong.'));
+    .catch(error => res.status(500).end('Something went wrong.'));
 });
 
 /**
@@ -34,7 +34,7 @@ talia.get('/actions/public/:mood/:user', (req, res) => {
   const { user, mood } = req.params;
   model.getPublicActions(user, mood)
     .then(result => res.json(result).end())
-    .catch(error => res.header(500).end('Something went wrong.'));
+    .catch(error => res.status(500).end('Something went wrong.'));
 });
 
 /**
@@ -43,12 +43,12 @@ talia.get('/actions/public/:mood/:user', (req, res) => {
 talia.post('/moods', (req, res) => {
   const { user, mood } = req.body;
   if (user === undefined || !mood) {
-    res.header(400).end('Invalid request.');
+    res.status(400).end('Invalid request.');
     return;
   }
   controller.setMood(user, mood)
     .then(result => res.json(result).end())
-    .catch(error => res.header(500).end('Something went wrong.'));
+    .catch(error => res.status(500).end('Something went wrong.'));
 });
 
 /**
@@ -57,12 +57,12 @@ talia.post('/moods', (req, res) => {
 talia.post('/actions', (req, res) => {
   const { user, action, mood } = req.body;
   if (user === undefined || !action || !mood) {
-    res.header(400).end('Invalid request.');
+    res.status(400).end('Invalid request.');
     return;
   }
   controller.setAction(user, action, mood)
     .then(result => res.json(result).end())
-    .catch(error => res.header(500).end('Something went wrong.'));
+    .catch(error => res.status(500).end('Something went wrong.'));
 });
 
 /**
@@ -71,12 +71,12 @@ talia.post('/actions', (req, res) => {
 talia.put('/actions/dislike', (req, res) => {
   const { user, action } = req.body;
   if (user === undefined || !action) {
-    res.header(400).end('Invalid request.');
+    res.status(400).end('Invalid request.');
     return;
   }
   controller.dislikeAction(user, action)
     .then(result => res.json(result).end())
-    .catch(error => res.header(500).end('Something went wrong.'));
+    .catch(error => res.status(500).end('Something went wrong.'));
 });
 
 /**
@@ -85,22 +85,22 @@ talia.put('/actions/dislike', (req, res) => {
 talia.post('/enter', (req, res) => {
   const { user, pin } = req.body;
   if (user === undefined || pin === undefined) {
-    res.header(400).end('Invalid password or user name.');
+    res.status(400).end('Invalid password or user name.');
     return;
   }
   model.getUser(user)
     .then(result => {
       if (!result.length) {
         controller.createUser(user, pin)
-        .then(result => res.header(201).json(result).end())
-        .catch(error => res.header(500).end('Something went wrong.'));
+        .then(result => res.status(201).json(result).end())
+        .catch(error => res.status(500).end('Something went wrong.'));
         return;
       }
       if (result[0].properties.pin === pin) {
         res.json(result).end();
         return;
       }
-      res.header(401).end('Invalid password or user name.');
+      res.status(401).end('Invalid password or user name.');
     })
-    .catch(error => res.header(500).end('Something went wrong.'));
+    .catch(error => res.status(500).end('Something went wrong.'));
 });
